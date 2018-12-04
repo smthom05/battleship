@@ -29,14 +29,21 @@ class ShipTest < Minitest::Test
     assert_equal false, @ship.sunk?
   end
 
-  def test_ship_is_hit
+  def test_ship_loses_health_when_hit
     assert_equal 3, @ship.health
     @ship.hit
     assert_equal 2, @ship.health
   end
 
+  def test_isnt_sunk_yet
+    @ship.hit
+    assert_equal false, @ship.sunk?
+  end
 
-
-
-
+  def test_ship_sinks
+    @ship.hit
+    @ship.hit
+    @ship.hit
+    assert_equal true, @ship.sunk?
+  end
 end
