@@ -37,6 +37,21 @@ attr_reader :coordinate,
       # return corresponding symbol
     end
   end
-  
 
+  def render
+      #if cell is fired upon but doesn't contain a ship
+    if @fired_upon == true && @empty == true
+      p "M"
+      #cell fired upon & contains a ship
+    elsif @fired_upon == true && @ship.sunk == true
+      p "X"
+
+    elsif @fired_upon == true && @empty == false
+      p "H"
+      #cell fired upon & ship is sunk
+
+    else
+      p "."
+    end
   end
+end
