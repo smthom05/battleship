@@ -8,10 +8,6 @@ attr_reader :coordinate, :empty, :ship
     @ship = nil
   end
 
-  def ship
-
-  end
-
   def empty?
     @empty
   end

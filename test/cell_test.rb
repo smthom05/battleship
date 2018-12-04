@@ -32,5 +32,10 @@ class CellTest < Minitest::Test
     assert_instance_of Ship, @cell.place_ship(cruiser)
   end
 
+  def test_cell_is_empty_after_ship_placement
+    cruiser = Ship.new("Cruiser", 3)
+    @cell.place_ship(cruiser)
+    assert_equal false, @cell.empty?
+  end
 
 end
