@@ -3,6 +3,7 @@ require 'minitest/autorun'
 require 'minitest/pride'
 require './lib/ship'
 require './lib/cell'
+require 'pry'
 
 class CellTest < Minitest::Test
 
@@ -55,7 +56,36 @@ class CellTest < Minitest::Test
     @cell.fire_upon
 
 
+
     assert_equal 2, @cell.ship.health
   end
 
+  def test_cell_render_not_hit
+    @cell.render
+    assert_equal ".", @cell.render
+  end
+
+  def test_cell_render_miss
+    @cell.fire_upon
+    @cell.render
+    assert_equal "M", @cell.render
+  end
+
+  def test_cell_render_hit
+    cruiser = Ship.new("Cruiser", 3)
+    @cell.place_ship(cruiser)
+    @cell.fire_upon
+    @cell.render
+    assert_equal "H", @cell.render
+  end
+
+  def test_cell_has_been_sunk
+    cruiser = Ship.new("Cruiser", 3)
+    @cell.place_ship(cruiser)
+    @cell.fire_upon
+    @cell.fire_upon
+    @cell.fire_upon
+    @cell.render
+    assert_equal "X", @cell.render
+  end
 end
