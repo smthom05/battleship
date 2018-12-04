@@ -12,7 +12,6 @@ class CellTest < Minitest::Test
      @cell_2 = Cell.new("C3")
   end
 
-
   def test_cell_exists
     assert_instance_of Cell, @cell_1
     end
@@ -56,19 +55,15 @@ class CellTest < Minitest::Test
     @cell_1.place_ship(cruiser)
     @cell_1.fire_upon
 
-
-
     assert_equal 2, @cell_1.ship.health
   end
 
   def test_cell_render_not_hit
-    @cell_1.render
     assert_equal ".", @cell_1.render
   end
 
   def test_cell_render_miss
     @cell_1.fire_upon
-    @cell_1.render
     assert_equal "M", @cell_1.render
   end
 
@@ -76,31 +71,29 @@ class CellTest < Minitest::Test
     cruiser = Ship.new("Cruiser", 3)
     @cell_1.place_ship(cruiser)
     @cell_1.fire_upon
-    @cell_1.render
     assert_equal "H", @cell_1.render
   end
 
   def test_cell_has_been_sunk
     cruiser = Ship.new("Cruiser", 3)
     @cell_1.place_ship(cruiser)
+
+    3.times do
     @cell_1.fire_upon
-    @cell_1.fire_upon
-    @cell_1.fire_upon
-    @cell_1.render
+    end
+
     assert_equal "X", @cell_1.render
   end
 
   def test_cell_is_hidden
     cruiser = Ship.new("Cruiser", 3)
     @cell_1.place_ship(cruiser)
-    @cell_1.render
     assert_equal ".", @cell_1.render
   end
 
   def test_cell_is_shown
     cruiser = Ship.new("Cruiser", 3)
     @cell_1.place_ship(cruiser)
-    @cell_1.render(true)
     assert_equal "S", @cell_1.render(true)
   end
 end

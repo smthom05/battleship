@@ -39,21 +39,21 @@ attr_reader :coordinate,
 
   def render(status = false)
     cell_alert = status
-      #Below needs to render cell_alert false
+      # cell has not been hit yet
     if !@fired_upon && !cell_alert
        "."
-      #Below needs to render cell_alert true
+       # cell has not been hit yet and is showing
     elsif !@fired_upon && cell_alert
        "S"
+       # cell fired upon but missed
     elsif @fired_upon && @empty
        "M"
-      #cell fired upon & ship is sunk
+       # cell fired upon & ship is sunk
     elsif @fired_upon && @ship.sunk
        "X"
-      #cell fired upon & contains a ship
+       # cell fired upon & contains a ship
     elsif @fired_upon && @empty == false
        "H"
-      # Cell not fired up yet
     end
   end
 end
