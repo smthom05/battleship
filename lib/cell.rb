@@ -38,10 +38,16 @@ attr_reader :coordinate,
     end
   end
 
-  def render
-      #if cell is fired upon but doesn't contain a ship
-    if @fired_upon && @empty
-      p "M"
+  def render(status = false)
+    cell_alert = status
+      #Below needs to render cell_alert false
+    if !@fired_upon && !cell_alert
+        p "."
+      #Below needs to render cell_alert true
+    elsif !@fired_upon && cell_alert
+        p "S"
+    elsif @fired_upon && @empty
+        p "M"
       #cell fired upon & ship is sunk
     elsif @fired_upon && @ship.sunk
       p "X"
@@ -49,8 +55,6 @@ attr_reader :coordinate,
     elsif @fired_upon && @empty == false
       p "H"
       # Cell not fired up yet
-    else
-      p "."
     end
   end
 end
