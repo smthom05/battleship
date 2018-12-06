@@ -2,7 +2,9 @@ require './lib/cell'
 require 'pry'
 
 class Board
-  attr_reader :cells, :horizontal_coordinates, :vertical_coordinates
+  attr_reader :cells,
+              :horizontal_coordinates,
+              :vertical_coordinates,               :total_vertical_ordinal_difference
 
   def initialize
     @cells =   {
@@ -28,6 +30,7 @@ class Board
       @vertical_coordinates = []
       @vertical_ordinals = []
       @horizontal_ordinals = []
+      @total_vertical_ordinal_difference
 
   end
 
@@ -51,17 +54,35 @@ class Board
     @horizontal_coordinates.each do |coordinate|
       @horizontal_ordinals = @horizontal_ordinals << coordinate.to_i.ord
       end
-      ordinal_difference
+      vertical_ordinal_difference
   end
 
-  def ordinal_difference
-    total_ordinal_difference = 0
-    @vertical_ordinals.each do |ordinal|
-      # binding.pry
-      total_ordinal_difference = (total_ordinal_difference).abs - (ordinal).abs
-      # binding.pry
+  def vertical_ordinal_difference
+    if @vertical_ordinals.count % 2 == 0
+      @total_vertical_ordinal_difference = 0
+    else
+      @total_vertical_ordinal_difference = @vertical_ordinals[0]
     end
-    total_ordinal_difference
+
+    @vertical_ordinals.each do |ordinal|
+        @total_vertical_ordinal_difference = (@total_vertical_ordinal_difference).abs - (ordinal).abs
+    end
+    @total_vertical_ordinal_difference = @total_vertical_ordinal_difference.abs
+    # binding.pry
+    horizontal_ordinal_difference
+  end
+
+    def horizontal_ordinal_difference
+    if @horizontal_ordinals.count % 2 == 0
+      @total_horizontal_ordinal_difference = 0
+    else
+      @total_horizontal_ordinal_difference = @horizontal_ordinals[0]
+    end
+
+    @horizontal_ordinals.each do |ordinal|
+        @total_horizontal_ordinal_difference = (@total_horizontal_ordinal_difference).abs - (ordinal).abs
+    end
+    @total_horizontal_ordinal_difference = @total_horizontal_ordinal_difference.abs
   end
 
 
@@ -79,6 +100,6 @@ class Board
     #
     # end
   end
-    return vvalid_placement
+    return valid_placement
   end
 end
