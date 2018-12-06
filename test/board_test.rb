@@ -11,6 +11,8 @@ class BoardTest < Minitest::Test
 
   def setup
     @board = Board.new
+    @cruiser = Ship.new("Cruiser", 3)
+    @submarine = Ship.new("Submarine", 2)
   end
 
   def test_it_exists
@@ -35,5 +37,16 @@ class BoardTest < Minitest::Test
     assert_equal false, @board.valid_coordinate?('A5')
     assert_equal false, @board.valid_coordinate?('E1')
     assert_equal false, @board.valid_coordinate?('A22')
+  end
+
+
+  def test_valid_placement_based_only_on_ship_length
+    assert_equal false, @board.valid_placement?(@submarine, ["B1", "B2", "B3"])
+    assert_equal false, @board.valid_placement?(@cruiser, ["A1", "A2"])
+    assert_equal true, @board.valid_placement?(@cruiser, ["C1", "C2", "C3"])
+  end
+
+  def test_valid_placement_based_on_coordinates_being_subsequent
+    assert_equal false, @board.coordinate_conversion(["A1", "A2", "A4"])
   end
 end

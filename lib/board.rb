@@ -2,7 +2,7 @@ require './lib/cell'
 require 'pry'
 
 class Board
-  attr_reader :cells
+  attr_reader :cells, :valid_placement, :horizontal_coordinates, :vertical_coordinates
 
   def initialize
     @cells =   {
@@ -23,10 +23,39 @@ class Board
         "D3" => Cell.new("D3"),
         "D4" => Cell.new("D4")
       }
+      @valid_placement = true
+      @horizontal_coordinates = []
+      @vertical_coordinates = []
+
   end
 
-  def valid_coordinate?(coordinate)
-  @cells.has_key?(coordinate)
-end
 
+
+  def coordinate_conversion(coordinates)
+#    (C1[1].ord - C2[1].ord).abs
+        temp_coordinates = []
+        coordinates.each do |coordinate|
+          temp_coordinates << coordinate.split("")
+          temp_coordinates = temp_coordinates.flatten
+    end
+    @vertical_coordinates = temp_coordinates.select{|x| temp_coordinates.index(x) % 2 == 0}
+    @horizontal_coordinates = temp_coordinates.select{|x| temp_coordinates.index(x) % 2 != 0}
+  end
+
+
+
+  def valid_coordinate?(coordinate)
+    @cells.has_key?(coordinate)
+  end
+
+
+
+  def valid_placement?(ship, coordinates)
+    @valid_placement = true
+    if ship.length != coordinates.length
+        @valid_placement = false
+    # elsif
+    end
+    return @valid_placement
+  end
 end
