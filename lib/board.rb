@@ -2,7 +2,7 @@ require './lib/cell'
 require 'pry'
 
 class Board
-  attr_reader :cells, :valid_placement, :horizontal_coordinates, :vertical_coordinates
+  attr_reader :cells, :horizontal_coordinates, :vertical_coordinates
 
   def initialize
     @cells =   {
@@ -23,16 +23,17 @@ class Board
         "D3" => Cell.new("D3"),
         "D4" => Cell.new("D4")
       }
-      @valid_placement = true
+
       @horizontal_coordinates = []
       @vertical_coordinates = []
+      @vertical_ordinals = []
+      @horizontal_ordinals = []
 
   end
 
 
 
   def coordinate_conversion(coordinates)
-#    (C1[1].ord - C2[1].ord).abs
         temp_coordinates = []
         coordinates.each do |coordinate|
           temp_coordinates << coordinate.split("")
@@ -40,8 +41,28 @@ class Board
     end
     @vertical_coordinates = temp_coordinates.select{|x| temp_coordinates.index(x) % 2 == 0}
     @horizontal_coordinates = temp_coordinates.select{|x| temp_coordinates.index(x) % 2 != 0}
+    coordinate_conversion_ordinal
   end
 
+  def coordinate_conversion_ordinal
+    @vertical_coordinates.each do |coordinate|
+      @vertical_ordinals = @vertical_ordinals << coordinate.ord
+      end
+    @horizontal_coordinates.each do |coordinate|
+      @horizontal_ordinals = @horizontal_ordinals << coordinate.to_i.ord
+      end
+      ordinal_difference
+  end
+
+  def ordinal_difference
+    total_ordinal_difference = 0
+    @vertical_ordinals.each do |ordinal|
+      # binding.pry
+      total_ordinal_difference = (total_ordinal_difference).abs - (ordinal).abs
+      # binding.pry
+    end
+    total_ordinal_difference
+  end
 
 
   def valid_coordinate?(coordinate)
@@ -51,11 +72,13 @@ class Board
 
 
   def valid_placement?(ship, coordinates)
-    @valid_placement = true
+    valid_placement = true
     if ship.length != coordinates.length
-        @valid_placement = false
+        valid_placement = false
     # elsif
-    end
-    return @valid_placement
+    #
+    # end
+  end
+    return vvalid_placement
   end
 end

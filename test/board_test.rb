@@ -21,8 +21,7 @@ class BoardTest < Minitest::Test
   end
 
   def test_it_a_cell
-    skip
-    assert_instance_of Cell, @board.cells[:A1]
+    assert_instance_of Cell, @board.cells["A1"]
   end
 
   def test_it_has_16_cells
