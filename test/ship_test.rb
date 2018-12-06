@@ -13,19 +13,13 @@ class ShipTest < Minitest::Test
     assert_instance_of Ship, @ship
   end
 
-  def test_it_has_a_name
+  def test_it_has_attributes
     assert_equal "Cruiser", @ship.name
-  end
-
-  def test_it_has_a_length
     assert_equal 3, @ship.length
-  end
-
-  def test_it_has_health
     assert_equal 3, @ship.health
   end
 
-  def test_ship_is_sunk
+  def test_ship_is_not_sunk_at_start
     assert_equal false, @ship.sunk?
   end
 
@@ -35,7 +29,7 @@ class ShipTest < Minitest::Test
     assert_equal 2, @ship.health
   end
 
-  def test_isnt_sunk_yet
+  def test_isnt_sunk_after_one_hit
     @ship.hit
     assert_equal false, @ship.sunk?
   end

@@ -39,8 +39,7 @@ attr_reader :coordinate,
     end
   end
 
-  def render(status = false)
-    cell_alert = status
+  def render(cell_alert = false)
       # cell has not been hit yet
     if !@fired_upon && !cell_alert
        "."
