@@ -2,9 +2,7 @@ require './lib/cell'
 require 'pry'
 
 class Board
-  attr_reader :cells,
-              :horizontal_coordinates,
-              :vertical_coordinates,               :total_vertical_ordinal_difference
+  attr_reader :cells
 
   def initialize
     @cells =   {
@@ -32,14 +30,19 @@ class Board
 
 
 
-  def valid_placement?(ship, coordinates)
-    valid_placement = true
-    if ship.length != coordinates.length
-        valid_placement = false
-    # elsif
-    #
-    # end
-  end
-    return valid_placement
-  end
+  # def valid_placement?(ship, coordinates)
+  #   if validate.validate
+  #     true
+  #   else
+  #     false
+  #   end
+  # end
+
+
+
+  # def valid_coordinate?(coordinate)
+  #   @cells.has_key?(coordinate)
+  # end
+
+
 end

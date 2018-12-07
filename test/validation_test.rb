@@ -1,6 +1,6 @@
-require 'minitest'
 require 'minitest/autorun'
 require 'minitest/pride'
+require 'pry'
 require './lib/ship'
 require './lib/cell'
 require './lib/board'
@@ -11,11 +11,40 @@ class ValidationTest < Minitest::Test
   def setup
     @submarine = Ship.new("Submarine", 2)
     @cruiser = Ship.new("Cruiser", 3)
-    @board = Board.new
-    @validate = Validation.new()
+    # @board = Board.new
+    @validate = Validation.new
   end
 
   def test_it_exists
     assert_instance_of Validation, @validate
   end
+
+  def test_placement_is_valid_based_only_on_ship_length
+    assert_equal false, @validate.validate_ship_length?(@submarine, ["B1", "B2", "B3"])
+    assert_equal false, @validate.validate_ship_length?(@cruiser, ["A1", "A2"])
+    assert_equal true, @validate.validate_ship_length?(@cruiser, ["C1", "C2", "C3"])
+  end
+
+  def test_placement_is_valid_based_on_horizontal_coordinates_being_subsequent
+    # skip
+    assert_equal true, @validate.validate(["A1", "A2", "A3"])
+  end
+
+  def test_placement_is_valid_based_on_vertical_coordinates_being_subsequent
+    # skip
+    assert_equal true, @validate.validate(["A1", "B1", "C1"])
+  end
+
+  def test_placement_is_not_valid_based_on_horizontal_coordinates_not_being_subsequent
+    # 1,3,4 causes error at first assertion
+    # Previous tests are messing this shit up
+    assert_equal false, @validate.validate(["C1", "C3", "C4"])
+    assert_equal false, @validate.validate(["A1", "A2", "A4"])
+    assert_equal false, @validate.validate(["B1", "B2", "B4"])
+  end
+
+  def test_placement_is_valid_based_on_vertical_coordinates_not_being_subsequent
+    assert_equal false, @validate.validate(["A1", "B2", "C1"])
+  end
+
 end

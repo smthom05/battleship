@@ -48,4 +48,5 @@ class BoardTest < Minitest::Test
   def test_valid_placement_based_on_coordinates_being_subsequent
     assert_equal false, @board.coordinate_conversion(["A1", "A2", "A4"])
   end
+  
 end
