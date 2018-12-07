@@ -11,7 +11,7 @@ class ValidationTest < Minitest::Test
   def setup
     @submarine = Ship.new("Submarine", 2)
     @cruiser = Ship.new("Cruiser", 3)
-    # @board = Board.new
+    @board = Board.new
     @validate = Validation.new
   end
 
@@ -26,25 +26,33 @@ class ValidationTest < Minitest::Test
   end
 
   def test_placement_is_valid_based_on_horizontal_coordinates_being_subsequent
-    # skip
-    assert_equal true, @validate.validate(["A1", "A2", "A3"])
+    @validate.validate(["A1", "A2", "A3"])
+
+    # binding.pry
+    assert_equal true, @validate.status
   end
 
   def test_placement_is_valid_based_on_vertical_coordinates_being_subsequent
-    # skip
-    assert_equal true, @validate.validate(["A1", "B1", "C1"])
+    @validate.validate(["A1", "B1", "C1"])
+
+    # binding.pry
+    assert_equal true, @validate.status
   end
 
   def test_placement_is_not_valid_based_on_horizontal_coordinates_not_being_subsequent
-    # 1,3,4 causes error at first assertion
-    # Previous tests are messing this shit up
-    assert_equal false, @validate.validate(["C1", "C3", "C4"])
-    assert_equal false, @validate.validate(["A1", "A2", "A4"])
-    assert_equal false, @validate.validate(["B1", "B2", "B4"])
+    @validate.validate(["A1", "A3", "A4"])
+    @validate.validate(["C1", "C3", "C4"])
+    @validate.validate(["B1", "B2", "B4"])
+
+    assert_equal false, @validate.status
+    assert_equal false, @validate.status
+    assert_equal false, @validate.status
   end
 
-  def test_placement_is_valid_based_on_vertical_coordinates_not_being_subsequent
-    assert_equal false, @validate.validate(["A1", "B2", "C1"])
+  def test_placement_is_not_valid_based_on_vertical_coordinates_not_being_subsequent
+    @validate.validate(["A1", "B2", "C1"])
+
+    assert_equal false, @validate.status
   end
 
 end

@@ -6,16 +6,20 @@ class Validation
               :vertical_ordinals,
               :horizontal_ordinals,
               :total_vertical_ordinal_difference,
-              :total_horizontal_ordinal_difference
+              :total_horizontal_ordinal_difference,
+              :horizontal_ordinals_with_cons,
+              :status
 
 
   def initialize
+    @status = false
     @vertical_coordinates = []
     @horizontal_coordinates = []
     @vertical_ordinals = []
     @horizontal_ordinals = []
     @total_vertical_ordinal_difference = 0
     @total_horizontal_ordinal_difference = 0
+    @horizontal_ordinals_with_cons = []
   end
 
 
@@ -24,16 +28,18 @@ class Validation
     coordinate_conversion_ordinal
     vertical_ordinal_difference
     horizontal_ordinal_difference
+    horizontal_ordinal_comparision
     validate_ordinals
   end
 
   def validate_ordinals
-    if (@total_vertical_ordinal_difference == 1) && (@total_horizontal_ordinal_difference == 0)
-      true
-    elsif (@total_vertical_ordinal_difference == 0) && (@total_horizontal_ordinal_difference == 1)
-      true
+    binding.pry
+    if (@total_vertical_ordinal_difference == 1) && (@horizontal_ordinal_difference == 0 && (@horizontal_ordinals == @horizontal_ordinals_with_cons[0]))
+       @status = true
+    elsif (@total_vertical_ordinal_difference == 0) && (@horizontal_ordinal_difference == 1 && (@horizontal_ordinals == @horizontal_ordinals_with_cons[0]))
+       @status = true
     else
-      false
+       @status = false
     end
   end
 
@@ -54,6 +60,7 @@ class Validation
     @vertical_coordinates = temp_coordinates.select{|x| temp_coordinates.index(x) % 2 == 0}
     @horizontal_coordinates = temp_coordinates.select{|x| temp_coordinates.index(x) % 2 != 0}
     # coordinate_conversion_ordinal
+    # binding.pry
   end
 
   def coordinate_conversion_ordinal
@@ -78,21 +85,26 @@ class Validation
       @total_vertical_ordinal_difference = (@total_vertical_ordinal_difference).abs - (ordinal).abs
     end
     @total_vertical_ordinal_difference = @total_vertical_ordinal_difference.abs
+    # binding.pry
   end
 
   def horizontal_ordinal_difference
-    @total_horizontal_ordinal_difference = 0
+    # binding.pry
     if @horizontal_ordinals.count % 2 == 0
       @total_horizontal_ordinal_difference = 0
     else
       @total_horizontal_ordinal_difference = @horizontal_ordinals[0]
     end
-
     @horizontal_ordinals.each do |ordinal|
       @total_horizontal_ordinal_difference = (@total_horizontal_ordinal_difference).abs - (ordinal).abs
-      # binding.pry
     end
-    @total_horizontal_ordinal_difference = @total_vertical_ordinal_difference.abs
+    @total_horizontal_ordinal_difference = @total_horizontal_ordinal_difference.abs
+  end
+
+  def horizontal_ordinal_comparision
+    @horizontal_ordinals.each_cons(@horizontal_ordinals.length) do |x|
+      @horizontal_ordinals_with_cons << x
+    end
   end
 
   def valid_coordinate?(coordinate)
