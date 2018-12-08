@@ -4,12 +4,16 @@ require 'pry'
 
 class Validation
   attr_reader :vertical_ordinals,
-              :horizontal_ordinals
+              :horizontal_ordinals,
+              :tot_hor_diff,
+              :tot_vert_diff
 
 
 
-  def valid_placement(coordinates)
+  def validate_placement(coordinates)
     coordinate_conversion(coordinates)
+    vertical_validation
+
 
   end
 
@@ -42,38 +46,68 @@ class Validation
     @horizontal_ordinals = []
 
     # Separate into vertical and horizontal arrays
-    temp_vertical_coordinates = coordinates.select{|x| coordinates.index(x) % 2 == 0}
-    temp_horizontal_coordinates = coordinates.select{|x| coordinates.index(x) % 2 != 0}
+    temp_vertical_coordinates = coordinates.select{|x| coordinates.index(x) % 2 != 0}
+    temp_horizontal_coordinates = coordinates.select{|x| coordinates.index(x) % 2 == 0}
 
     temp_vertical_coordinates.each do |coordinate|
-      @vertical_ordinals << coordinate.ord
+      @vertical_ordinals << coordinate.to_i
     end
+
+
 
     temp_horizontal_coordinates.each do |coordinate|
-      @horizontal_ordinals << coordinate.to_i
+      @horizontal_ordinals << coordinate.ord
     end
-
-
-  def vertical_ordinal_difference
-      @total_vertical_ordinal_difference = 0
-      if @vertical_ordinals.count % 2 == 0
-        @total_vertical_ordinal_difference = 0
-      else
-        @total_vertical_ordinal_difference = @vertical_ordinals[0]
-      end
-    end
-
-
-  def validate_ordinals
-    if (@total_vertical_ordinal_difference == 1) && (@total_horizontal_ordinal_difference == 0 && (@horizontal_ordinals == @horizontal_ordinals_with_cons[0]))
-       true
-    elsif (@total_vertical_ordinal_difference == 0) && (@total_horizontal_ordinal_difference == 1 && (@horizontal_ordinals == @horizontal_ordinals_with_cons[0]))
-       true
-    else
-       false
-    end
+    ordinal_differences
   end
- end
+
+  def ordinal_differences
+      @tot_vert_diff = 0
+    if @vertical_ordinals.count % 2 == 0
+      @tot_vert_diff = 0
+    else
+      @tot_vert_diff = @vertical_ordinals[0]
+    end
+    @vertical_ordinals.each do |ordinal|
+      @tot_vert_diff = @tot_vert_diff.abs - ordinal.abs
+      end
+      @tot_vert_diff = @tot_vert_diff.abs
+
+
+
+      @tot_hor_diff = 0
+      if @horizontal_ordinals.count % 2 == 0
+        @tot_hor_diff = 0
+      else
+        @tot_hor_diff = @horizontal_ordinals[0]
+      end
+      @horizontal_ordinals.each do |ordinal|
+        @tot_hor_diff = @tot_hor_diff.abs - ordinal.abs
+        end
+        @tot_hor_diff = @tot_hor_diff.abs
+  end
+
+
+
+
+  def vertical_validation
+    vert_uniq = []
+      vert_uniq = @vertical_ordinals.uniq
+
+    if vert_uniq.count == 1
+      true
+    else
+      false
+
+    end
+    # if @tot_vert_diff ==
+    #   true
+    # elsif
+    # end
+  end
+
+  def horizontal_validation(coordinates)
+  end
 end
 
 #

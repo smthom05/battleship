@@ -20,14 +20,15 @@ class ValidationTest < Minitest::Test
   end
 
   def test_placement_validation_on_ship_length_only
-  assert_equal true, @validation.validate_ship_length?(@cruiser, ["B1", "B2", "B3"])
+  skip
+  assert_equal true, @validation.validate_ship_length?(@cruiser, ["A1", "B1", "C1"])
   assert_equal false,@validation.validate_ship_length?(@submarine, ["A1", "A2", "A3"])
   assert_equal false,@validation.validate_ship_length?(@cruiser, ["B1", "B2", "B3", "B4"])
   # assert_equal false,
   end
 
-  def test_placement_validation_horizontal
-  assert_equal true, @validation.validate_placement("A1", "A2", "A3")
+  def test_placement_validation_vertical
+  assert_equal true, @validation.validate_placement(["A1", "B1", "C1"])
 
   end
 end
