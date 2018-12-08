@@ -109,7 +109,3 @@ class Validation
   def horizontal_validation(coordinates)
   end
 end
-
-#
-# # validate = Validation.new
-# validate.coordinate_conversion(["A1","A2","A3"])

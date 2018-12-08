@@ -1,4 +1,4 @@
-require 'minitest/autorun'
+rrequire 'minitest/autorun'
 require 'minitest/pride'
 require 'pry'
 require './lib/ship'
