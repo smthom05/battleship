@@ -25,8 +25,21 @@ class Board
       }
   end
 
+  # :coordinate,
+  #             :empty,
+  #             :ship,
+  #             :fired_upon
 
 
+  def place(ship, coordinates)
+
+
+      coordinates.each do |coordinate|
+        @cells[coordinate].place_ship(ship)
+        end
+        binding.pry
+      end
+end
 
 
 
@@ -43,6 +56,3 @@ class Board
   # def valid_coordinate?(coordinate)
   #   @cells.has_key?(coordinate)
   # end
-
-
-end
