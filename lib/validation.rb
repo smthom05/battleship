@@ -1,7 +1,5 @@
 require 'pry'
 
-
-
 class Validation
   attr_reader :vertical_ordinals,
               :horizontal_ordinals,
@@ -10,11 +8,14 @@ class Validation
 
 
 
-  def validate_placement(coordinates)
+  def validate_placement(ship, coordinates)
+    @vertical_ordinals = []
+    @horizontal_ordinals = []
+    @tot_hor_diff = 0
+    @tot_vert_diff = 0
     coordinate_conversion(coordinates)
     vertical_validation
-
-
+    horizontal_validation
   end
 
   def validate_ship_length?(ship, coordinates)
@@ -25,6 +26,13 @@ class Validation
     end
   end
 
+  def validate_duplicate_coordinate?(ship, coordinates)
+    uniq_coordinates = []
+    uniq_coordinates = coordinates.uniq!
+    if uniq_coordinates.count != ship.length
+      return false
+  end
+end
 
   def coordinate_conversion(coordinates)
     temp_coord = []
@@ -45,15 +53,12 @@ class Validation
     temp_horizontal_coordinates = []
     @horizontal_ordinals = []
 
-    # Separate into vertical and horizontal arrays
     temp_vertical_coordinates = coordinates.select{|x| coordinates.index(x) % 2 != 0}
     temp_horizontal_coordinates = coordinates.select{|x| coordinates.index(x) % 2 == 0}
 
     temp_vertical_coordinates.each do |coordinate|
       @vertical_ordinals << coordinate.to_i
     end
-
-
 
     temp_horizontal_coordinates.each do |coordinate|
       @horizontal_ordinals << coordinate.ord
@@ -87,29 +92,27 @@ class Validation
         @tot_hor_diff = @tot_hor_diff.abs
   end
 
-
-
-
   def vertical_validation
     vert_uniq = []
       vert_uniq = @vertical_ordinals.uniq
-
     if vert_uniq.count == 1
       true
     else
       false
-
     end
-    # if @tot_vert_diff ==
-    #   true
-    # elsif
-    # end
   end
 
-  def horizontal_validation(coordinates)
+  def horizontal_validation
+    horizontal_uniq = []
+    horizontal_uniq = @horizontal_ordinals.uniq
+    if @tot_hor_diff != 0
+      false
+    elsif @tot_hor_diff == 0 && @tot_vert_diff == 1
+      true
+    else
+      false
+    end
   end
+
+
 end
-
-#
-# # validate = Validation.new
-# validate.coordinate_conversion(["A1","A2","A3"])
