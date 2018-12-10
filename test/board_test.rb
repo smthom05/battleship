@@ -39,14 +39,17 @@ class BoardTest < Minitest::Test
   end
 
 
-  def test_valid_placement_based_only_on_ship_length
-    assert_equal false, @board.valid_placement?(@submarine, ["B1", "B2", "B3"])
-    assert_equal false, @board.valid_placement?(@cruiser, ["A1", "A2"])
-    assert_equal true, @board.valid_placement?(@cruiser, ["C1", "C2", "C3"])
-  end
+  # def test_valid_placement_based_only_on_ship_length
+  #   assert_equal false, @board.valid_placement?(@submarine, ["B1", "B2", "B3"])
+  #   assert_equal false, @board.valid_placement?(@cruiser, ["A1", "A2"])
+  #   assert_equal true, @board.valid_placement?(@cruiser, ["C1", "C2", "C3"])
+  # end
+  #
+  # def test_valid_placement_based_on_coordinates_being_subsequent
+  #   assert_equal false, @board.coordinate_conversion(["A1", "A2", "A4"])
+  # end
 
-  def test_valid_placement_based_on_coordinates_being_subsequent
-    assert_equal false, @board.coordinate_conversion(["A1", "A2", "A4"])
+  def test_ship_placed_on_cells
+    assert_equal true, @board.place(@cruiser,["A1", "A2", "A3"])
   end
-  
 end
