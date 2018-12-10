@@ -26,13 +26,24 @@ class ValidationTest < Minitest::Test
   # assert_equal false,
   end
 
-  def test_vertical_placement_validation
-  assert_equal true, @validation.validate_placement(["A1", "B1", "C1"])
-  assert_equal true, @validation.validate_placement(["B3", "C3", "D3"])
-  assert_equal true, @validation.validate_placement(["A4", "B4", "C4"])
-  assert_equal false, @validation.validate_placement(["A4", "B3", "C4"])
-  assert_equal false, @validation.validate_placement(["A1", "B2", "B2"])
-  assert_equal false, @validation.validate_placement(["A1", "A1", "A1"])
-
+  def test_coordinates_must_be_unique
+    assert_equal false, @validation.validate_duplicate_coordinate?(@cruiser, ["A1", "A1", "A1"])
+    assert_equal false, @validation.validate_duplicate_coordinate?(@submarine, ["A3", "A3"])
   end
+
+  def test_vertical_placement_validation
+  assert_equal true, @validation.validate_placement(@cruiser, ["B3", "C3", "D3"])
+  assert_equal true, @validation.validate_placement(@cruiser, ["A4", "B4", "C4"])
+  assert_equal true, @validation.validate_placement(@cruiser, ["A1", "B1", "C1"])
+  assert_equal false, @validation.validate_placement(@cruiser, ["A4", "B3", "C4"])
+  assert_equal false, @validation.validate_placement(@cruiser, ["A1", "B2", "B2"])
+  end
+
+  def test_horizontal_placement_validation
+    assert_equal true, @validation.validate_placement(@cruiser, ["A1", "A2", "A3"])
+    assert_equal false, @validation.validate_placement(@cruiser, ["A1", "A2", "A4"])
+    assert_equal false, @validation.validate_placement(@cruiser, ["A1", "A2", "B1"])
+  end
+
+
 end

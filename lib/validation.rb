@@ -8,9 +8,14 @@ class Validation
 
 
 
-  def validate_placement(coordinates)
+  def validate_placement(ship, coordinates)
+    @vertical_ordinals = []
+    @horizontal_ordinals = []
+    @tot_hor_diff = 0
+    @tot_vert_diff = 0
     coordinate_conversion(coordinates)
     vertical_validation
+    horizontal_validation
   end
 
   def validate_ship_length?(ship, coordinates)
@@ -20,6 +25,14 @@ class Validation
       true
     end
   end
+
+  def validate_duplicate_coordinate?(ship, coordinates)
+    uniq_coordinates = []
+    uniq_coordinates = coordinates.uniq!
+    if uniq_coordinates.count != ship.length
+      return false
+  end
+end
 
   def coordinate_conversion(coordinates)
     temp_coord = []
@@ -82,7 +95,6 @@ class Validation
   def vertical_validation
     vert_uniq = []
       vert_uniq = @vertical_ordinals.uniq
-
     if vert_uniq.count == 1
       true
     else
@@ -91,6 +103,16 @@ class Validation
   end
 
   def horizontal_validation
-
+    horizontal_uniq = []
+    horizontal_uniq = @horizontal_ordinals.uniq
+    if @tot_hor_diff != 0
+      false
+    elsif @tot_hor_diff == 0 && @tot_vert_diff == 1
+      true
+    else
+      false
+    end
   end
+
+
 end
