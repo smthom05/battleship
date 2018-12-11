@@ -8,15 +8,19 @@ class Validation
 
 
 
-  def validate_placement(ship, coordinates)
+  def validate_placement(coordinates)
     @vertical_ordinals = []
     @horizontal_ordinals = []
     @tot_hor_diff = 0
     @tot_vert_diff = 0
     coordinate_conversion(coordinates)
-    vertical_validation
-    horizontal_validation
+    # vertical_validation
+    # horizontal_validation
   end
+
+  # def valid_coordinate?(coordinate)
+  #   @cells.has_key?(coordinate)
+  # end
 
   def validate_ship_length?(ship, coordinates)
     if ship.length != coordinates.length
@@ -92,7 +96,7 @@ end
         @tot_hor_diff = @tot_hor_diff.abs
   end
 
-  def vertical_validation
+  def vertical_validation?
     vert_uniq = []
       vert_uniq = @vertical_ordinals.uniq
     if vert_uniq.count == 1
@@ -102,7 +106,7 @@ end
     end
   end
 
-  def horizontal_validation
+  def horizontal_validation?
     horizontal_uniq = []
     horizontal_uniq = @horizontal_ordinals.uniq
     if @tot_hor_diff != 0

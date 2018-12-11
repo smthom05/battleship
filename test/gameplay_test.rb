@@ -23,9 +23,11 @@ def test_gameplay_exists
 end
 
 def test_start_method_runs
+  skip
   assert_equal "Welcome to BATTLESHIP\n Enter p to play. Enter q to quit. ", @gameplay.start
 end
 
-def test_
+def test_cpu_sub_placement_is_valid
+  assert_equal true, @gameplay.cpu_sub_creation
 end
 end

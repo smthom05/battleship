@@ -1,4 +1,5 @@
 require './lib/cell'
+require './lib/validation'
 require 'pry'
 
 class Board
@@ -25,16 +26,14 @@ class Board
       }
   end
 
-  # :coordinate,
-  #             :empty,
-  #             :ship,
-  #             :fired_upon
-
-
   def place(ship, coordinates)
     coordinates.each do |coordinate|
       @cells[coordinate].place_ship(ship)
     end
+  end
+
+  def valid_coordinate?(coordinate)
+    @cells.has_key?(coordinate)
   end
 
   def render(cell_alert = false)
@@ -52,21 +51,23 @@ class Board
     game_board
   end
 
-end
+  def valid_placement?(ship, coordinates)
+    validation = Validation.new
+    validation.validate_placement(coordinates)
 
+    if !valid_coordinate?(coordinates)
+      false
+    elsif !validation.validate_ship_length?(ship,     coordinates)
+      false
+    elsif !validation.validate_duplicate_coordinate?(ship, coordinates)
+      false
+    elsif !validation.vertical_validation?
+      false
+    elsif !validation.horizontal_validation?
+      false
+    else
+      true
+    end
+  end
 
-
-
-  # def valid_placement?(ship, coordinates)
-  #   if validate.validate
-  #     true
-  #   else
-  #     false
-  #   end
-  # end
-
-
-
-  # def valid_coordinate?(coordinate)
-  #   @cells.has_key?(coordinate)
-  # end
+  end
