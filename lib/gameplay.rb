@@ -16,7 +16,28 @@ class Gameplay
   end
 
   def setup
-    p "Game Plays"
+    cpu_player_board
+  end
+
+  def cpu_player_board
+    board = Board.new
+    random_coordinates_sub = board.cells.keys.sample(2)
+    random_coordinates_cruiser = board.cells.keys.sample(3)
+    # board.validate(random_coordinates_sub)
+    #   if board.validate(random_coordinates_sub) == true
+    #     #game continues
+    #   elsif board.validate(random_coordinates_sub) != true
+    #     cpu_player_board
+    #   end
+    #
+    # board.validate(random_coordinates_cruiser)
+    #   if board.validate(random_coordinates_sub) == true
+    #     #game continues
+    #   elsif board.validate(random_coordinates_sub) != true
+    #     cpu_player_board
+    #   end
+
+
 
   end
 end
