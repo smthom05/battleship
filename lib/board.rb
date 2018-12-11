@@ -48,6 +48,7 @@ class Board
       end
       game_board += " \n"
     end
+    binding.pry
     game_board
   end
 
@@ -57,7 +58,7 @@ class Board
 
     if !valid_coordinate?(coordinates)
       false
-    elsif !validation.validate_ship_length?(ship,     coordinates)
+    elsif !validation.validate_ship_length?(ship, coordinates)
       false
     elsif !validation.validate_duplicate_coordinate?(ship, coordinates)
       false

@@ -41,14 +41,14 @@ end
     end
   end
 
-  # def cpu_cruiser_creation
-  #   cruiser = Ship.new("Cruiser", 3)
-  #   random_coordinates_cruiser = @board.cells.keys.sample(3)
-  #
-  #   if @board.valid_placement?(cruiser, random_coordinates_cruiser)
-  #     cpu_player_board
-  #   else
-  #     cpu_cruiser_creation
-  #   end
-  # end
+  def cpu_cruiser_creation
+    cruiser = Ship.new("Cruiser", 3)
+    random_coordinates_cruiser = @board.cells.keys.sample(3)
+
+    if @board.valid_placement?(cruiser, random_coordinates_cruiser)
+      cpu_player_board
+    else
+      cpu_cruiser_creation
+    end
+  end
 end

@@ -1,26 +1,23 @@
 require 'pry'
 
 class Validation
-  attr_reader :vertical_ordinals,
-              :horizontal_ordinals,
-              :tot_hor_diff,
-              :tot_vert_diff
+
+  attr_reader   :vertical_ordinals,
+                :horizontal_ordinals,
+                :tot_hor_diff,
+                :tot_vert_diff
 
 
 
-  def validate_placement(coordinates)
+  def validate_placement(ship, coordinates)
     @vertical_ordinals = []
     @horizontal_ordinals = []
     @tot_hor_diff = 0
     @tot_vert_diff = 0
     coordinate_conversion(coordinates)
-    # vertical_validation
-    # horizontal_validation
+    # vertical_validation?
+    # horizontal_validation?
   end
-
-  # def valid_coordinate?(coordinate)
-  #   @cells.has_key?(coordinate)
-  # end
 
   def validate_ship_length?(ship, coordinates)
     if ship.length != coordinates.length
@@ -35,8 +32,8 @@ class Validation
     uniq_coordinates = coordinates.uniq!
     if uniq_coordinates.count != ship.length
       return false
+    end
   end
-end
 
   def coordinate_conversion(coordinates)
     temp_coord = []
@@ -71,7 +68,7 @@ end
   end
 
   def ordinal_differences
-      @tot_vert_diff = 0
+    @tot_vert_diff = 0
     if @vertical_ordinals.count % 2 == 0
       @tot_vert_diff = 0
     else
@@ -79,26 +76,26 @@ end
     end
     @vertical_ordinals.each do |ordinal|
       @tot_vert_diff = @tot_vert_diff.abs - ordinal.abs
-      end
-      @tot_vert_diff = @tot_vert_diff.abs
+    end
+    @tot_vert_diff = @tot_vert_diff.abs
 
 
 
+    @tot_hor_diff = 0
+    if @horizontal_ordinals.count % 2 == 0
       @tot_hor_diff = 0
-      if @horizontal_ordinals.count % 2 == 0
-        @tot_hor_diff = 0
-      else
-        @tot_hor_diff = @horizontal_ordinals[0]
-      end
-      @horizontal_ordinals.each do |ordinal|
-        @tot_hor_diff = @tot_hor_diff.abs - ordinal.abs
-        end
-        @tot_hor_diff = @tot_hor_diff.abs
+    else
+      @tot_hor_diff = @horizontal_ordinals[0]
+    end
+    @horizontal_ordinals.each do |ordinal|
+      @tot_hor_diff = @tot_hor_diff.abs - ordinal.abs
+    end
+    @tot_hor_diff = @tot_hor_diff.abs
   end
 
   def vertical_validation?
     vert_uniq = []
-      vert_uniq = @vertical_ordinals.uniq
+    vert_uniq = @vertical_ordinals.uniq
     if vert_uniq.count == 1
       true
     else
@@ -117,6 +114,4 @@ end
       false
     end
   end
-
-
 end
