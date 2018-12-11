@@ -71,4 +71,20 @@ class BoardTest < Minitest::Test
 
     assert_equal true, cell_1.ship == cell_2.ship
   end
+
+  def test_board_will_render_without_showing_user_ships
+    @board.place(@cruiser,["A1", "A2", "A3"])
+    @board.place(@submarine,["D1", "D2"])
+
+
+    assert_equal "  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n", @board.render
+  end
+
+  def test_board_will_render_with_showing_user_ships
+    @board.place(@cruiser,["A1", "A2", "A3"])
+    @board.place(@submarine,["D1", "D2"])
+
+
+    assert_equal "  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n", @board.render(true)
+  end
 end
