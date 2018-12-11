@@ -16,7 +16,6 @@ class BoardTest < Minitest::Test
   end
 
   def test_it_exists
-    skip
     assert_instance_of Board, @board
   end
 
@@ -25,7 +24,6 @@ class BoardTest < Minitest::Test
   end
 
   def test_it_has_16_cells
-    skip
     assert_equal 16, @board.cells.count
   end
 
@@ -73,11 +71,12 @@ class BoardTest < Minitest::Test
   end
 
   def test_board_will_render_without_showing_user_ships
+
     @board.place(@cruiser,["A1", "A2", "A3"])
     @board.place(@submarine,["D1", "D2"])
 
 
-    assert_equal "  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n", @board.render
+    assert_equal "  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n", @board.render()
   end
 
   def test_board_will_render_with_showing_user_ships
@@ -85,6 +84,6 @@ class BoardTest < Minitest::Test
     @board.place(@submarine,["D1", "D2"])
 
 
-    assert_equal "  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n", @board.render(true)
+    assert_equal "  1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD S S . . \n", @board.render(true)
   end
 end

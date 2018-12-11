@@ -38,11 +38,18 @@ class Board
   end
 
   def render(cell_alert = false)
-    game_board = "  1 2 3 4  \n "
-    @cells.each do |cell, value|
-      game_board += value.render(cell_alert)
+    game_board = "  1 2 3 4 \n"
+    i = 0
+
+    4.times do
+      game_board +=  @cells[cells.keys[i]].coordinate[0]
+      4.times do
+        game_board += ' ' + @cells[cells.keys[i]].render(cell_alert)
+        i += 1
+      end
+      game_board += " \n"
     end
-    
+    game_board
   end
 
 end
