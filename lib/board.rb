@@ -32,14 +32,28 @@ class Board
 
 
   def place(ship, coordinates)
+    coordinates.each do |coordinate|
+      @cells[coordinate].place_ship(ship)
+    end
+  end
 
+  def render(cell_alert = false)
+    game_board = "  1 2 3 4 \n"
+    i = 0
 
-      coordinates.each do |coordinate|
-        @cells[coordinate].place_ship(ship)
-        end
-        binding.pry
+    4.times do
+      game_board +=  @cells[cells.keys[i]].coordinate[0]
+      4.times do
+        game_board += ' ' + @cells[cells.keys[i]].render(cell_alert)
+        i += 1
       end
+      game_board += " \n"
+    end
+    game_board
+  end
+
 end
+
 
 
 

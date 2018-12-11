@@ -41,20 +41,22 @@ attr_reader :coordinate,
 
   def render(cell_alert = false)
       # cell has not been hit yet
-    if !@fired_upon && !cell_alert
-       "."
+    if ((!@fired_upon && cell_alert) && !@empty)
+      p "S"
        # cell has not been hit yet and is showing
-    elsif !@fired_upon && cell_alert
-       "S"
+    elsif !@fired_upon && !cell_alert
+       p "."
        # cell fired upon but missed
     elsif @fired_upon && @empty
-       "M"
+       p "M"
        # cell fired upon & ship is sunk
     elsif @fired_upon && @ship.sunk
-       "X"
+       p "X"
        # cell fired upon & contains a ship
     elsif @fired_upon && @empty == false
-       "H"
+       p "H"
+     else
+       p '.'
     end
   end
 end
