@@ -33,7 +33,38 @@ class Board
   end
 
   def valid_coordinate?(coordinate)
-    @cells.has_key?(coordinate)
+      @cells.has_key?(coordinate)
+  end
+
+  def valid_coordinates?(coordinates)
+    valid_coordinates = []
+    coordinates.each do |coordinate|
+      if @cells.has_key?(coordinate)
+        valid_coordinates << coordinate
+      else
+        valid_coordinates
+      end
+    end
+    valid_coordinates.count == coordinates.count
+  end
+
+  def validate_placement?(ship, coordinates)
+    validation = Validation.new
+    validation.validate_placement?(ship, coordinates)
+
+    if valid_coordinates?(coordinates) != true
+      false
+    elsif validation.validate_ship_length?(ship, coordinates) != true
+      false
+    elsif validation.validate_duplicate_coordinate?(ship, coordinates) != true
+      false
+    elsif validation.vertical_validation? != true
+      false
+    elsif validation.horizontal_validation? != true
+      false
+    else
+      true
+    end
   end
 
   def render(cell_alert = false)
@@ -48,27 +79,7 @@ class Board
       end
       game_board += " \n"
     end
-    binding.pry
     game_board
-  end
-
-  def valid_placement?(ship, coordinates)
-    validation = Validation.new
-    validation.validate_placement(coordinates)
-
-    if !valid_coordinate?(coordinates)
-      false
-    elsif !validation.validate_ship_length?(ship, coordinates)
-      false
-    elsif !validation.validate_duplicate_coordinate?(ship, coordinates)
-      false
-    elsif !validation.vertical_validation?
-      false
-    elsif !validation.horizontal_validation?
-      false
-    else
-      true
-    end
   end
 
   end

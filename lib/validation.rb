@@ -9,7 +9,7 @@ class Validation
 
 
 
-  def validate_placement(ship, coordinates)
+  def validate_placement?(ship, coordinates)
     @vertical_ordinals = []
     @horizontal_ordinals = []
     @tot_hor_diff = 0
@@ -29,9 +29,11 @@ class Validation
 
   def validate_duplicate_coordinate?(ship, coordinates)
     uniq_coordinates = []
-    uniq_coordinates = coordinates.uniq!
+    uniq_coordinates = coordinates.uniq
     if uniq_coordinates.count != ship.length
-      return false
+      false
+    else
+      true
     end
   end
 
@@ -96,19 +98,29 @@ class Validation
   def vertical_validation?
     vert_uniq = []
     vert_uniq = @vertical_ordinals.uniq
-    if vert_uniq.count == 1
+    vertical_cons = []
+    @vertical_ordinals.each_cons((@vertical_ordinals.length) -1) do |ord|
+      vertical_cons << ord
+    end
+
+    if vert_uniq.count == 1 && (vertical_cons[0] == vertical_cons[1])
+      true
+    elsif vert_uniq.count == 3 && @tot_vert_diff == 1
       true
     else
       false
     end
+
   end
 
   def horizontal_validation?
-    horizontal_uniq = []
-    horizontal_uniq = @horizontal_ordinals.uniq
-    if @tot_hor_diff != 0
-      false
-    elsif @tot_hor_diff == 0 && @tot_vert_diff == 1
+    horizontal_cons = []
+    @horizontal_ordinals.each_cons((@horizontal_ordinals.length) -1) do |ord|
+      horizontal_cons << ord
+    end
+    if (vertical_validation? && @tot_hor_diff == 0) && ()
+      true
+    elsif (horizontal_cons[0] == horizontal_cons[1]) && @tot_hor_diff == 0
       true
     else
       false

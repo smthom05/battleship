@@ -22,8 +22,6 @@ attr_reader :coordinate,
     @empty = false
     @ship = ship
 
-    #Ordinal values for vertical and horizontal?
-
   end
 
   def fired_upon?
