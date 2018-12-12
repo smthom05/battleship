@@ -20,9 +20,9 @@ class ValidationTest < Minitest::Test
   end
 
   def test_placement_validation_on_ship_length_only
-  assert_equal true, @validation.validate_ship_length?(@cruiser, ["A1", "B1", "C1"])
-  assert_equal false,@validation.validate_ship_length?(@submarine, ["A1", "A2", "A3"])
-  assert_equal false,@validation.validate_ship_length?(@cruiser, ["B1", "B2", "B3", "B4"])
+    assert_equal true, @validation.validate_ship_length?(@cruiser, ["A1", "B1", "C1"])
+    assert_equal false,@validation.validate_ship_length?(@submarine, ["A1", "A2", "A3"])
+    assert_equal false,@validation.validate_ship_length?(@cruiser, ["B1", "B2", "B3", "B4"])
   # assert_equal false,
   end
 
@@ -31,18 +31,24 @@ class ValidationTest < Minitest::Test
     assert_equal false, @validation.validate_duplicate_coordinate?(@submarine, ["A3", "A3"])
   end
 
-  def test_vertical_placement_validation
-  assert_equal true, @validation.validate_placement(@cruiser, ["B3", "C3", "D3"])
-  assert_equal true, @validation.validate_placement(@cruiser, ["A4", "B4", "C4"])
-  assert_equal true, @validation.validate_placement(@cruiser, ["A1", "B1", "C1"])
-  assert_equal false, @validation.validate_placement(@cruiser, ["A4", "B3", "C4"])
-  assert_equal false, @validation.validate_placement(@cruiser, ["A1", "B2", "B2"])
+  def test_vertical_coordinates_are_subsequent
+    @validation.validate_placement?(@cruiser, ["A1", "B1", "C1"])
+    assert_equal true, @validation.vertical_validation?
   end
 
-  def test_horizontal_placement_validation
-    assert_equal true, @validation.validate_placement(@cruiser, ["A1", "A2", "A3"])
-    assert_equal false, @validation.validate_placement(@cruiser, ["A1", "A2", "A4"])
-    assert_equal false, @validation.validate_placement(@cruiser, ["A1", "A2", "B1"])
+  def test_vertical_coordinates_are_not_subsequent
+    @validation.validate_placement?(@cruiser, ["A1", "B1", "D2"])
+    assert_equal false, @validation.vertical_validation?
+  end
+
+  def test_horizontal_coordinates_are_subsequent
+    @validation.validate_placement?(@cruiser, ["A1", "A2", "A3"])
+    assert_equal true, @validation.horizontal_validation?
+  end
+
+  def test_horizontal_coordinates_are_not_subsequent
+    @validation.validate_placement?(@cruiser, ["A1", "A2", "A4"])
+    assert_equal false, @validation.horizontal_validation?
   end
 
 

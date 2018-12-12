@@ -11,6 +11,7 @@ class BoardTest < Minitest::Test
 
   def setup
     @board = Board.new
+    @validation = Validation.new
     @cruiser = Ship.new("Cruiser", 3)
     @submarine = Ship.new("Submarine", 2)
   end
@@ -28,7 +29,6 @@ class BoardTest < Minitest::Test
   end
 
   def test_coordinate_is_on_board
-    skip
     assert_equal true, @board.valid_coordinate?('A1')
     assert_equal true, @board.valid_coordinate?('D4')
     assert_equal false, @board.valid_coordinate?('A5')
@@ -37,15 +37,31 @@ class BoardTest < Minitest::Test
   end
 
 
-  # def test_valid_placement_based_only_on_ship_length
-  #   assert_equal false, @board.valid_placement?(@submarine, ["B1", "B2", "B3"])
-  #   assert_equal false, @board.valid_placement?(@cruiser, ["A1", "A2"])
-  #   assert_equal true, @board.valid_placement?(@cruiser, ["C1", "C2", "C3"])
-  # end
-  #
-  # def test_valid_placement_based_on_coordinates_being_subsequent
-  #   assert_equal false, @board.coordinate_conversion(["A1", "A2", "A4"])
-  # end
+  def test_valid_placement_based_only_on_ship_length
+    assert_equal false, @validation.validate_ship_length?(@submarine, ["B1", "B2", "B3"])
+    assert_equal false, @validation.validate_ship_length?(@cruiser, ["A1", "A2"])
+    assert_equal true, @validation.validate_ship_length?(@cruiser, ["C1", "C2", "C3"])
+  end
+
+  def test_diagonal_coordinates_fail
+    # skip
+    assert_equal false, @board.validate_placement?(@cruiser, ["A1", "B2", "C3"])
+  end
+
+  def test_vertical_placement_validation
+    assert_equal true, @board.validate_placement?(@cruiser, ["B3", "C3", "D3"])
+    assert_equal true, @board.validate_placement?(@cruiser, ["A4", "B4", "C4"])
+    assert_equal true, @board.validate_placement?(@cruiser, ["A1", "B1", "C1"])
+    assert_equal false, @board.validate_placement?(@cruiser, ["A4", "B3", "C4"])
+    assert_equal false, @board.validate_placement?(@cruiser, ["A1", "B2", "B2"])
+  end
+
+  def test_horizontal_placement_validation
+    assert_equal false, @board.validate_placement?(@cruiser, ["A1", "A2", "A4"])
+    assert_equal false, @board.validate_placement?(@cruiser, ["A1", "A2", "B1"])
+    assert_equal true, @board.validate_placement?(@cruiser, ["A1", "A2", "A3"])
+  end
+
 
   def test_cell_knows_if_it_has_a_ship
     @board.place(@cruiser,["A1", "A2", "A3"])
@@ -71,6 +87,7 @@ class BoardTest < Minitest::Test
   end
 
   def test_board_will_render_without_showing_user_ships
+    skip
 
     @board.place(@cruiser,["A1", "A2", "A3"])
     @board.place(@submarine,["D1", "D2"])
@@ -80,10 +97,12 @@ class BoardTest < Minitest::Test
   end
 
   def test_board_will_render_with_showing_user_ships
+    skip
     @board.place(@cruiser,["A1", "A2", "A3"])
     @board.place(@submarine,["D1", "D2"])
 
 
     assert_equal "  1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD S S . . \n", @board.render(true)
   end
+
 end

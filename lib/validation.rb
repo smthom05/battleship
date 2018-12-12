@@ -1,21 +1,22 @@
 require 'pry'
 
 class Validation
-  attr_reader :vertical_ordinals,
-              :horizontal_ordinals,
-              :tot_hor_diff,
-              :tot_vert_diff
+
+  attr_reader   :vertical_ordinals,
+                :horizontal_ordinals,
+                :tot_hor_diff,
+                :tot_vert_diff
 
 
 
-  def validate_placement(ship, coordinates)
+  def validate_placement?(ship, coordinates)
     @vertical_ordinals = []
     @horizontal_ordinals = []
     @tot_hor_diff = 0
     @tot_vert_diff = 0
     coordinate_conversion(coordinates)
-    vertical_validation
-    horizontal_validation
+    # vertical_validation?
+    # horizontal_validation?
   end
 
   def validate_ship_length?(ship, coordinates)
@@ -28,16 +29,19 @@ class Validation
 
   def validate_duplicate_coordinate?(ship, coordinates)
     uniq_coordinates = []
-    uniq_coordinates = coordinates.uniq!
+    uniq_coordinates = coordinates.uniq
     if uniq_coordinates.count != ship.length
-      return false
+      false
+    else
+      true
+    end
   end
-end
 
   def coordinate_conversion(coordinates)
     temp_coord = []
 
     coordinates.each do |coordinate|
+      # binding.pry
       temp_coord << coordinate.split('').flatten
       temp_coord = temp_coord.flatten
     end
@@ -67,7 +71,7 @@ end
   end
 
   def ordinal_differences
-      @tot_vert_diff = 0
+    @tot_vert_diff = 0
     if @vertical_ordinals.count % 2 == 0
       @tot_vert_diff = 0
     else
@@ -75,36 +79,53 @@ end
     end
     @vertical_ordinals.each do |ordinal|
       @tot_vert_diff = @tot_vert_diff.abs - ordinal.abs
-      end
-      @tot_vert_diff = @tot_vert_diff.abs
+    end
+    @tot_vert_diff = @tot_vert_diff.abs
 
 
 
+    @tot_hor_diff = 0
+    if @horizontal_ordinals.count % 2 == 0
       @tot_hor_diff = 0
-      if @horizontal_ordinals.count % 2 == 0
-        @tot_hor_diff = 0
-      else
-        @tot_hor_diff = @horizontal_ordinals[0]
-      end
-      @horizontal_ordinals.each do |ordinal|
-        @tot_hor_diff = @tot_hor_diff.abs - ordinal.abs
-        end
-        @tot_hor_diff = @tot_hor_diff.abs
+    else
+      @tot_hor_diff = @horizontal_ordinals[0]
+    end
+    @horizontal_ordinals.each do |ordinal|
+      @tot_hor_diff = @tot_hor_diff.abs - ordinal.abs
+    end
+    @tot_hor_diff = @tot_hor_diff.abs
   end
 
-  def vertical_validation
+  def vertical_validation?
     vert_uniq = []
-      vert_uniq = @vertical_ordinals.uniq
+    vert_uniq = @vertical_ordinals.uniq
+    # vertical_cons = []
+    # @vertical_ordinals.each_cons((@vertical_ordinals.length) -1) do |ord|
+    #   vertical_cons << ord
+    # end
+
     if vert_uniq.count == 1
       true
     else
       false
     end
+
+    # if vert_uniq.count == 1 && (vertical_cons[0] == vertical_cons[1])
+    #   true
+    # elsif vert_uniq.count == 3 && @tot_vert_diff == 1
+    #   true
+    # else
+    #   false
+    # end
+
   end
 
-  def horizontal_validation
-    horizontal_uniq = []
-    horizontal_uniq = @horizontal_ordinals.uniq
+  def horizontal_validation?
+    horizontal_cons = []
+    horizontal_cons = @horizontal_ordinals.uniq
+    # @horizontal_ordinals.each_cons((@horizontal_ordinals.length) -1) do |ord|
+    #   horizontal_cons << ord
+    # end
     if @tot_hor_diff != 0
       false
     elsif @tot_hor_diff == 0 && @tot_vert_diff == 1
@@ -112,7 +133,12 @@ end
     else
       false
     end
+    # if (vertical_validation? && @tot_hor_diff == 0) && ()
+    #   true
+    # elsif (horizontal_cons[0] == horizontal_cons[1]) && @tot_hor_diff == 0
+    #   true
+    # else
+    #   false
+    # end
   end
-
-
 end
