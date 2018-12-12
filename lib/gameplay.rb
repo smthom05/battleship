@@ -23,19 +23,43 @@ end
   end
 
   def setup
-    # cpu_sub_creation
+    cpu_start
+    player_start
   end
 
-  def cpu_player_board
-    p "It Works"
+  def cpu_start
+    cpu_sub_creation
+    cpu_cruiser_creation
+    cpu_render_board
+    binding.pry
+  end
+
+  def player_start
+    p "Please place your submarine.  ex. ('A1', 'A2')"
+    p "Please input your first coordinate for your submarine."
+    user_input_subcoord1 = gets.chomp
+    p "Please input your second coordinate for your submarine."
+    user_input_subcoord2 = gets.chomp
+
+
+    user_sub = Ship.new("Submarine", 2)
+    binding.pry
+    if @board.validate_placement?(user_sub, ([user_input_subcoord1, user_input_subcoord2]))
+
+
+    end
+
+  end
+
+  def cpu_render_board
+    puts @board.render(true)   #be sure to take this out
   end
 
   def cpu_sub_creation
     sub = Ship.new("Submarine", 2)
     random_coordinates_sub = @board.cells.keys.sample(2)
     if @board.validate_placement?(sub, random_coordinates_sub)
-      p random_coordinates_sub
-      cpu_player_board
+      @board.place(sub, random_coordinates_sub)
     else
       cpu_sub_creation
     end
@@ -46,11 +70,17 @@ end
     random_coordinates_cruiser = @board.cells.keys.sample(3)
 
     if @board.validate_placement?(cruiser, random_coordinates_cruiser)
-      p random_coordinates_cruiser
-      cpu_player_board
+      @board.place(cruiser, random_coordinates_cruiser)
     else
       cpu_cruiser_creation
     end
   end
 
+
+
+
 end
+
+game = Gameplay.new
+
+game.start

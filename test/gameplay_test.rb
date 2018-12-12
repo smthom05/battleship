@@ -26,12 +26,8 @@ def test_start_method_runs
   skip
   assert_equal "Welcome to BATTLESHIP\n Enter p to play. Enter q to quit. ", @gameplay.start
 end
-
-def test_cpu_sub_placement_is_valid
-  assert_equal "It Works", @gameplay.cpu_sub_creation
-end
-
-def test_cpu_cruiser_placement_is_valid
-  assert_equal "It Works", @gameplay.cpu_cruiser_creation
-end
+#
+# def test_setup_works
+#   assert_equal true, @gameplay.setup
+# end
 end
