@@ -85,7 +85,7 @@ class Board
       end
       game_board += " \n"
     end
-    p game_board
+    game_board
   end
 
   end
