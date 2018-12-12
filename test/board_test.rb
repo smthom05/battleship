@@ -35,12 +35,12 @@ class BoardTest < Minitest::Test
     assert_equal false, @board.valid_coordinate?('A22')
   end
 
-
-  # def test_valid_placement_based_only_on_ship_length
-  #   assert_equal false, @board.validate_ship_length?(@submarine, ["B1", "B2", "B3"])
-  #   assert_equal false, @board.validate_ship_length?(@cruiser, ["A1", "A2"])
-  #   assert_equal true, @board.validate_ship_length?(@cruiser, ["C1", "C2", "C3"])
-  # end
+  def test_coordinate_is_empty
+    @board.place(@cruiser, ["A1","A2", "A3"])
+    @board.place(@sub, ["A1","A2"])
+    assert_equal false, @board.validate_cells_are_empty?(["A1","A2"])
+    assert_equal true, @board.validate_cells_are_empty?(["B4","B3"])
+  end
 
   def test_diagonal_coordinates_fail
     assert_equal false, @board.validate_placement?(@cruiser, ["A1", "B2", "C3"])

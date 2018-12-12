@@ -31,25 +31,20 @@ class ValidationTest < Minitest::Test
     assert_equal false, @validation.validate_duplicate_coordinate?(@submarine, ["A3", "A3"])
   end
 
-  def test_vertical_coordinates_are_subsequent
-    @validation.validate_placement?(@cruiser, ["A1", "B1", "C1"])
-    assert_equal true, @validation.vertical_validation?
+  # def test_vertical_coordinates_are_subsequent
+    assert_equal true, @validation.valid_vertical?(["A1", "B1", "C1"])
   end
 
   def test_vertical_coordinates_are_not_subsequent
-    @validation.validate_placement?(@cruiser, ["A1", "B1", "D2"])
-    assert_equal false, @validation.vertical_validation?
+    assert_equal false, @validation.valid_vertical?(["A1", "B1", "D2"])
   end
 
   def test_horizontal_coordinates_are_subsequent
-    @validation.validate_placement?(@cruiser, ["A1", "A2", "A3"])
-    assert_equal true, @validation.horizontal_validation?
+    assert_equal true, @validation.valid_horizontal?(["A1", "A2", "A3"])
   end
 
   def test_horizontal_coordinates_are_not_subsequent
-    @validation.validate_placement?(@cruiser, ["A1", "A2", "A4"])
-    assert_equal false, @validation.horizontal_validation?
+    assert_equal false, @validation.valid_horizontal?(["A1", "A2", "A4"])
   end
-
 
 end
