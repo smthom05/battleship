@@ -26,6 +26,8 @@ def test_start_method_runs
   skip
   assert_equal "Welcome to BATTLESHIP\n Enter p to play. Enter q to quit. ", @gameplay.start
 end
+
+
 #
 # def test_setup_works
 #   assert_equal true, @gameplay.setup
