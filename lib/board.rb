@@ -58,12 +58,12 @@ class Board
       false
     elsif validation.validate_duplicate_coordinate?(ship, coordinates) != true
       false
-    elsif validation.vertical_validation? != true
-      false
-    elsif validation.horizontal_validation? != true
-      false
-    else
+    elsif !validation.vertical_validation? && validation.horizontal_validation?
       true
+    elsif validation.vertical_validation? && !validation.horizontal_validation?
+      true
+    else
+      false
     end
   end
 

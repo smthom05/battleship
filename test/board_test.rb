@@ -43,15 +43,9 @@ class BoardTest < Minitest::Test
     assert_equal true, @validation.validate_ship_length?(@cruiser, ["C1", "C2", "C3"])
   end
 
-  def test_valid_placement_based_on_horizontal_coordinates_being_subsequent
-    # @validation.validate_placement(@cruiser, ["A1", "B1", "D2"])
-    skip
-    refute_equal 0, @validation.coordinate_conversion(["A1", "A2", "A4"])
-  end
-
   def test_diagonal_coordinates_fail
-    skip
-    assert_equal false, @board.validate_placement?(@cruiser, ["B3", "C3", "D3"])
+    # skip
+    assert_equal false, @board.validate_placement?(@cruiser, ["A1", "B2", "C3"])
   end
 
   def test_vertical_placement_validation
@@ -93,6 +87,7 @@ class BoardTest < Minitest::Test
   end
 
   def test_board_will_render_without_showing_user_ships
+    skip
 
     @board.place(@cruiser,["A1", "A2", "A3"])
     @board.place(@submarine,["D1", "D2"])
@@ -102,6 +97,7 @@ class BoardTest < Minitest::Test
   end
 
   def test_board_will_render_with_showing_user_ships
+    skip
     @board.place(@cruiser,["A1", "A2", "A3"])
     @board.place(@submarine,["D1", "D2"])
 

@@ -41,6 +41,7 @@ class Validation
     temp_coord = []
 
     coordinates.each do |coordinate|
+      # binding.pry
       temp_coord << coordinate.split('').flatten
       temp_coord = temp_coord.flatten
     end
@@ -98,32 +99,46 @@ class Validation
   def vertical_validation?
     vert_uniq = []
     vert_uniq = @vertical_ordinals.uniq
-    vertical_cons = []
-    @vertical_ordinals.each_cons((@vertical_ordinals.length) -1) do |ord|
-      vertical_cons << ord
-    end
+    # vertical_cons = []
+    # @vertical_ordinals.each_cons((@vertical_ordinals.length) -1) do |ord|
+    #   vertical_cons << ord
+    # end
 
-    if vert_uniq.count == 1 && (vertical_cons[0] == vertical_cons[1])
-      true
-    elsif vert_uniq.count == 3 && @tot_vert_diff == 1
+    if vert_uniq.count == 1
       true
     else
       false
     end
+
+    # if vert_uniq.count == 1 && (vertical_cons[0] == vertical_cons[1])
+    #   true
+    # elsif vert_uniq.count == 3 && @tot_vert_diff == 1
+    #   true
+    # else
+    #   false
+    # end
 
   end
 
   def horizontal_validation?
     horizontal_cons = []
-    @horizontal_ordinals.each_cons((@horizontal_ordinals.length) -1) do |ord|
-      horizontal_cons << ord
-    end
-    if (vertical_validation? && @tot_hor_diff == 0) && ()
-      true
-    elsif (horizontal_cons[0] == horizontal_cons[1]) && @tot_hor_diff == 0
+    horizontal_cons = @horizontal_ordinals.uniq
+    # @horizontal_ordinals.each_cons((@horizontal_ordinals.length) -1) do |ord|
+    #   horizontal_cons << ord
+    # end
+    if @tot_hor_diff != 0
+      false
+    elsif @tot_hor_diff == 0 && @tot_vert_diff == 1
       true
     else
       false
     end
+    # if (vertical_validation? && @tot_hor_diff == 0) && ()
+    #   true
+    # elsif (horizontal_cons[0] == horizontal_cons[1]) && @tot_hor_diff == 0
+    #   true
+    # else
+    #   false
+    # end
   end
 end
