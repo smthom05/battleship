@@ -48,59 +48,29 @@ class Board
     valid_coordinates.count == coordinates.count
   end
 
-  # def validate_placement?(ship, coordinates)
-  #   validation = Validation.new
-  #   validation.validate_placement?(ship, coordinates)
-  #
-  #   if valid_coordinates?(coordinates) != true
-  #     false
-  #   elsif validation.validate_ship_length?(ship, coordinates) != true
-  #     false
-  #   elsif validation.validate_duplicate_coordinate?(ship, coordinates) != true
-  #     false
-  #   elsif !validation.vertical_validation? && validation.horizontal_validation?
-  #     true
-  #   elsif validation.vertical_validation? && !validation.horizontal_validation?
-  #     true
-  #   else
-  #     false
-  #   end
-  # end
+  def validate_cells_are_empty?(coordinates)
+    coordinates.each do |coordinate|
+      if @cells[coordinate].empty? != true
+        return false
+      end
+    end
+    return true
+  end
 
   def validate_placement?(ship, coordinates)
-    if coordinates.uniq.length == ship.length
-      # All valid && empty?
-      if valid_horizontal?(coordinates)
+    validation = Validation.new
+
+    if validation.validate_ship_length?(ship, coordinates)
+      if valid_coordinates?(coordinates) && validate_cells_are_empty?(coordinates)
+        if validation.valid_horizontal?(coordinates)
         return true
-      elsif valid_vertical?(coordinates)
+      elsif validation.valid_vertical?(coordinates)
         return true
       end
     end
     return false
   end
-
-  def valid_horizontal?(coordinates)
-    coordinates.each_cons(2) do |a, b|
-      if b[1].to_i - a[1].to_i != 1
-        return false
-      end
-    end
-    coordinates.all? do |coordinate|
-      coordinate[0] == coordinates.first[0]
-    end
-  end
-
-  def valid_vertical?(coordinates)
-    # binding.pry
-    coordinates.each_cons(2) do |a, b|
-      # binding.pry
-      if b[0].ord - a[0].ord != 1
-        return false
-      end
-    end
-    coordinates.all? do |coordinate|
-      coordinate[1] == coordinates.first[1]
-    end
+    return false
   end
 
   def render(cell_alert = false)
