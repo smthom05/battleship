@@ -48,11 +48,11 @@ attr_reader :coordinate,
     elsif @fired_upon && @empty
        "M"
        # cell fired upon & ship is sunk
-    elsif @fired_upon && @ship.sunk
-       "X"
-       # cell fired upon & contains a ship
+    elsif @fired_upon && @ship.sunk?
+      "X"
+      # cell fired upon & contains a ship
     elsif @fired_upon && @empty == false
-       "H"
+      "H"
      else
        '.'
     end

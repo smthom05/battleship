@@ -134,27 +134,62 @@ end
     cpu_render_board
     player_render_board
     cpu_turn
+    player_turn
+    turn_results
+    turn #
 
   end
   def cpu_turn
+    @cpu_turn_results = ""
+
     cpu_target = @player_board.cells.keys.sample
-    if @player_board.valid_coordinate?(cpu_target)
-      puts "cpu fired"
-      @player_board.cells[cpu_target].fire_upon
+      if !@player_board.cells[cpu_target].fired_upon?
+        if @player_board.valid_coordinate?(cpu_target)
+          result = @player_board.cells[cpu_target].fire_upon
+        end
+      else
+        cpu_turn
+    end
+binding.pry
+    if result == nil
+      @cpu_turn_results = "My shot on #{cpu_target} was a miss."
+    elsif result == 0
+      @cpu_turn_results = "My shot on #{cpu_target} sunk a ship."
+    elsif result != 0
+      @cpu_turn_results = "My shot on #{cpu_target} was a hit."
     end
   end
 
   def player_turn
+
+    @player_turn_results = ""
+
     puts "Please enter a coordinate to fire on"
     ui_target = gets.chomp
     if @cpu_board.valid_coordinate?(ui_target)
-      puts "It's a valid coordinate"
-      @cpu_board.cells[ui_target].fire_upon
+    if !@cpu_board.cells[ui_target].fired_upon?
+      result = @cpu_board.cells[ui_target].fire_upon
+      else
+        puts "That was already fired upon, try again."
+      end
     else
       puts "Please enter a valid coordinate"
+      player_turn
+    end
+
+    if result == nil
+      @player_turn_results = "Your shot on #{ui_target} was a miss."
+    elsif result == true
+      @player_turn_results = "Your shot on #{ui_target} sunk a ship."
+    elsif result != 0
+      @player_turn_results = "Your shot on #{ui_target} was a hit."
     end
   end
 
+  def turn_results
+    puts @cpu_turn_results
+    puts @player_turn_results
+  end
 end
 
 
