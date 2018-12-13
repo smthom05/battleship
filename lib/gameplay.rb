@@ -16,7 +16,7 @@ end
       if user_input == "p"
         setup
       elsif user_input == "q"
-        puts "You suck for not playing"
+        puts "ok you suck"
       else
         puts "Please enter p or q"
         start
@@ -26,40 +26,45 @@ end
   def setup
     cpu_start
     player_start
+    turn
   end
 
   def cpu_start
     cpu_sub_creation
     cpu_cruiser_creation
-    cpu_render_board
+    # cpu_render_board
 
   end
 
   def player_start
-    p "==========Player Board=========="
+    system('clear')
+
+
     player_sub_creation
     player_cruiser_creation
+
     player_render_board
-    binding.pry
   end
 
   def player_sub_creation
-    p "Please place your submarine.  ex. ('A1', 'A2')"
-    p "Please input your first coordinate for your submarine."
-    ui_sub_coord1 = gets.chomp
-    p "Please input your second coordinate for your submarine."
-    ui_sub_coord2 = gets.chomp
-
-    ui_sub_coords = [ui_sub_coord1, ui_sub_coord2]
 
 
+    player_render_board
+    puts "I have laid out my ships.  Ok, it's your turn."
+    puts "Please place your submarine.  The submarine is two units long.  ex A1 A2"
+    puts "Please input your submarines coordinates."
+
+    ui_sub_coords = gets.chomp
+    ui_sub_coords = ui_sub_coords.split
     user_sub = Ship.new("Submarine", 2)
 
 
     if @player_board.validate_placement?(user_sub, ui_sub_coords)
       @player_board.place(user_sub, ui_sub_coords)
+      system('clear')
     else
-      p "Invalid coordinates.  Please enter valid coordinates."
+      system('clear')
+      puts "Invalid coordinates.  Please enter valid coordinates."
       player_sub_creation
     end
   end
@@ -67,24 +72,23 @@ end
 
 
   def player_cruiser_creation
-    p "Please place your cruiser.  ex. ('A1', 'A2', 'A3')"
-    p "Please input your first coordinate for your cruiser."
-    ui_cruiser_coord1 = gets.chomp
-    p "Please input your second coordinate for your cruiser."
-    ui_cruiser_coord2 = gets.chomp
-    p "Please input your third coordinate for your cruiser."
-    ui_cruiser_coord3 = gets.chomp
 
-    ui_cruiser_coords = [ui_cruiser_coord1, ui_cruiser_coord2, ui_cruiser_coord3]
-
+    player_render_board
+    puts "Submarine successfully placed."
+    puts "Please place your cruiser.  The cruiser is three units long.  ex A1 A2 A3"
+    puts "Please input your cruiser coordinates."
+    ui_cruiser_coords = gets.chomp
+    ui_cruiser_coords = ui_cruiser_coords.split
 
     user_cruiser = Ship.new("Cruiser", 3)
 
 
     if @player_board.validate_placement?(user_cruiser, ui_cruiser_coords)
       @player_board.place(user_cruiser, ui_cruiser_coords)
+      system('clear')
     else
-      p "Invalid coordinates.  Please enter valid coordinates."
+      system('clear')
+      puts "Invalid coordinates.  Please enter valid coordinates."
       player_cruiser_creation
     end
   end
@@ -93,10 +97,12 @@ end
 
 
   def player_render_board
+    puts "==========Player Board=========="
     puts @player_board.render(true)
   end
 
   def cpu_render_board
+    puts "=========== CPU Board==========="
     puts @cpu_board.render(true)   #be sure to take this out
   end
 
@@ -123,8 +129,70 @@ end
   end
 
 
+
+  def turn
+    cpu_render_board
+    player_render_board
+    cpu_turn
+    player_turn
+    turn_results
+    turn #
+
+  end
+  def cpu_turn
+    @cpu_turn_results = ""
+
+    cpu_target = @player_board.cells.keys.sample
+      if !@player_board.cells[cpu_target].fired_upon?
+        if @player_board.valid_coordinate?(cpu_target)
+          result = @player_board.cells[cpu_target].fire_upon
+        end
+      else
+        cpu_turn
+    end
+binding.pry
+    if result == nil
+      @cpu_turn_results = "My shot on #{cpu_target} was a miss."
+    elsif result == 0
+      @cpu_turn_results = "My shot on #{cpu_target} sunk a ship."
+    elsif result != 0
+      @cpu_turn_results = "My shot on #{cpu_target} was a hit."
+    end
+  end
+
+  def player_turn
+
+    @player_turn_results = ""
+
+    puts "Please enter a coordinate to fire on"
+    ui_target = gets.chomp
+    if @cpu_board.valid_coordinate?(ui_target)
+    if !@cpu_board.cells[ui_target].fired_upon?
+      result = @cpu_board.cells[ui_target].fire_upon
+      else
+        puts "That was already fired upon, try again."
+      end
+    else
+      puts "Please enter a valid coordinate"
+      player_turn
+    end
+
+    if result == nil
+      @player_turn_results = "Your shot on #{ui_target} was a miss."
+    elsif result == true
+      @player_turn_results = "Your shot on #{ui_target} sunk a ship."
+    elsif result != 0
+      @player_turn_results = "Your shot on #{ui_target} was a hit."
+    end
+  end
+
+  def turn_results
+    puts @cpu_turn_results
+    puts @player_turn_results
+  end
 end
 
-game = Gameplay.new
 
+
+game = Gameplay.new
 game.start
