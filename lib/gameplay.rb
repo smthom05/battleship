@@ -16,7 +16,7 @@ end
       if user_input == "p"
         setup
       elsif user_input == "q"
-        puts "You suck for not playing"
+        puts "ok you suck"
       else
         puts "Please enter p or q"
         start
@@ -26,6 +26,7 @@ end
   def setup
     cpu_start
     player_start
+    turn
   end
 
   def cpu_start
@@ -126,13 +127,33 @@ end
       cpu_cruiser_creation
     end
   end
-  #
-  #
-  #
-  # def turn
 
 
 
+  def turn
+    cpu_render_board
+    player_render_board
+    cpu_turn
+
+  end
+  def cpu_turn
+    cpu_target = @player_board.cells.keys.sample
+    if @player_board.valid_coordinate?(cpu_target)
+      puts "cpu fired"
+      @player_board.cells[cpu_target].fire_upon
+    end
+  end
+
+  def player_turn
+    puts "Please enter a coordinate to fire on"
+    ui_target = gets.chomp
+    if @cpu_board.valid_coordinate?(ui_target)
+      puts "It's a valid coordinate"
+      @cpu_board.cells[ui_target].fire_upon
+    else
+      puts "Please enter a valid coordinate"
+    end
+  end
 
 end
 
