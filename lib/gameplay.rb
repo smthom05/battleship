@@ -10,7 +10,7 @@ def initialize
 end
 
   def start
-    greeting = "Welcome to BATTLESHIP\n Enter p to play. Enter q to quit. "
+    greeting = "Welcome to BATTLESHIP\nEnter p to play. Enter q to quit. "
     puts greeting
     user_input = gets.chomp
       if user_input == "p"
@@ -32,23 +32,32 @@ end
   def cpu_start
     cpu_sub_creation
     cpu_cruiser_creation
-    # cpu_render_board
-
   end
 
   def player_start
     system('clear')
 
-
     player_sub_creation
     player_cruiser_creation
-
     player_render_board
   end
 
+  def turn
+    cpu_render_board
+    player_render_board
+    cpu_turn
+    player_turn
+    turn_results
+    turn
+    # if end_game != false
+    #   end_game
+    # else
+    #   turn
+    # end
+
+  end
+
   def player_sub_creation
-
-
     player_render_board
     puts "I have laid out my ships.  Ok, it's your turn."
     puts "Please place your submarine.  The submarine is two units long.  ex A1 A2"
@@ -57,7 +66,6 @@ end
     ui_sub_coords = gets.chomp
     ui_sub_coords = ui_sub_coords.split
     user_sub = Ship.new("Submarine", 2)
-
 
     if @player_board.validate_placement?(user_sub, ui_sub_coords)
       @player_board.place(user_sub, ui_sub_coords)
@@ -68,8 +76,6 @@ end
       player_sub_creation
     end
   end
-
-
 
   def player_cruiser_creation
 
@@ -82,7 +88,6 @@ end
 
     user_cruiser = Ship.new("Cruiser", 3)
 
-
     if @player_board.validate_placement?(user_cruiser, ui_cruiser_coords)
       @player_board.place(user_cruiser, ui_cruiser_coords)
       system('clear')
@@ -93,9 +98,6 @@ end
     end
   end
 
-
-
-
   def player_render_board
     puts "==========Player Board=========="
     puts @player_board.render(true)
@@ -103,10 +105,8 @@ end
 
   def cpu_render_board
     puts "=========== CPU Board==========="
-    puts @cpu_board.render(true)   #be sure to take this out
+    puts @cpu_board.render()
   end
-
-
 
   def cpu_sub_creation
     sub = Ship.new("Submarine", 2)
@@ -128,17 +128,6 @@ end
     end
   end
 
-
-
-  def turn
-    cpu_render_board
-    player_render_board
-    cpu_turn
-    player_turn
-    turn_results
-    turn #
-
-  end
   def cpu_turn
     @cpu_turn_results = ""
 
@@ -150,7 +139,7 @@ end
       else
         cpu_turn
     end
-binding.pry
+
     if result == nil
       @cpu_turn_results = "My shot on #{cpu_target} was a miss."
     elsif result == 0
@@ -190,9 +179,34 @@ binding.pry
     puts @cpu_turn_results
     puts @player_turn_results
   end
+
+  # def end_game
+  #   @cpu_sunken_cells = []
+  #   @player_sunken_cells = []
+  #
+  #   @cpu_board.cells.each do |coordinate, cell|
+  #     binding.pry
+  #     if @cpu_board.cells[coordinate].ship.sunk?
+  #       @cpu_sunken_cells << cell
+  #     else
+  #       @cpu_sunken_cells
+  #     end
+  #   end
+  #
+  #   @player_board.cells.each do |coordinate, cell|
+  #     if cell.ship.sunk?
+  #       @player_sunken_cells << cell
+  #     else
+  #       @player_sunken_cells
+  #     end
+  #   end
+  #
+  #   if @cpu_sunken_cells == 5
+  #     puts "You Win!"
+  #   elsif @player_sunken_cells == 5
+  #     puts "I Win!"
+  #   else
+  #     false
+  #   end
+  # end
 end
-
-
-
-game = Gameplay.new
-game.start
